@@ -1,10 +1,9 @@
 import * as Location from 'expo-location'
 
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, View } from 'react-native'
 import React, { useState } from 'react'
 
 import MapPreview from './MapPreview'
-import colors from '../../constants/colors'
 
 interface location {
     lat:number,
@@ -52,7 +51,6 @@ const LocationSelector = ({onLocation}:{onLocation:(location:any) => void}) => {
 
     }
 
-    console.log('picked',pickedLocation)
 
     return (
         <View>

@@ -1,7 +1,8 @@
-import { Alert, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
-import * as Permissions from 'expo-permissions'
+
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+
 import colors from '../../constants/colors'
 
 const ImageSelector = ({ onImage }: { onImage: (uri: string) => void }) => {
@@ -46,9 +47,9 @@ const ImageSelector = ({ onImage }: { onImage: (uri: string) => void }) => {
                     !pickedUri ? <Text>No hay ninguna imagen</Text> : <Image source={{ uri: pickedUri }} style={styles.image} />
                 }
             </View>
-            <TouchableOpacity style={styles.Button} onPress={handleTakeImage}>
+            {!pickedUri && <TouchableOpacity style={styles.Button} onPress={handleTakeImage}>
                 <Text style={styles.textButton}>Tomar Foto</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     )
 }
