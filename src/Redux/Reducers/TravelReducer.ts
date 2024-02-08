@@ -1,8 +1,8 @@
 import { GET_TRAVEL } from "../actions/getTravel";
 
 interface Coords {
-    lat: number,
-    lng: number
+    lat: number | null,
+    lng: number | null
 }
 
 interface TravelData {
@@ -34,7 +34,7 @@ const travelReducer = (state = initialState, action:Action) => {
                 ...state,
                 title: action.payload.title,
                 description: action.payload.description,
-                imageUri: action.payload.imageUri,
+                imageUri: action.payload.ImageUri,
                 coords: action.payload.coords,
             }
     

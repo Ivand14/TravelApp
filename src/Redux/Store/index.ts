@@ -1,9 +1,11 @@
-import { combineReducers, createStore } from  'redux'
+import { applyMiddleware, combineReducers, createStore } from  'redux'
 
+import {thunk} from 'redux-thunk'
 import travelReducer from '../Reducers/TravelReducer'
 
 const RootReducer = combineReducers({
     travel:travelReducer
 })
 
-export default createStore(RootReducer)
+// @ts-ignore
+export default createStore(RootReducer,applyMiddleware(thunk))
