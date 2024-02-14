@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { addDoc, collection } from 'firebase/firestore'
 import { useDispatch, useSelector } from 'react-redux'
 
 import ImageSelector from '../components/ImageSelector/ImageSelector'
 import LocationSelector from '../components/LocationSelector/LocationSelector'
 import colors from '../constants/colors'
+import { db } from '../../config/Firebase'
 import getTravel from '../Redux/actions/getTravel'
 
 interface Coords {
@@ -15,13 +17,11 @@ interface Coords {
 interface travelInputs {
     title: string,
     description: string,
-    ImageUri: string,
+    ImageUri: string | null,
     coords: Coords
 }
 
-interface Dispatcher {
-    dispatch: () => Promise<void>
-}
+
 
 const Travel = () => {
 
@@ -35,9 +35,6 @@ const Travel = () => {
         }
     })
     const dispatch = useDispatch()
-    // const dataTravel = useSelector((state:unknown) => state.travel)
-
-    // console.log('dataTravel',dataTravel)
 
     const handleTravelTitle = (title: string) => {
         setTravelInfo({ ...travelInfo, title })
@@ -47,10 +44,30 @@ const Travel = () => {
         setTravelInfo({ ...travelInfo, description })
     }
 
-    const handleSubmit = (info: travelInputs) => {
+    const handleSubmit = async (info: travelInputs) => {
         console.log('component', info);
         // @ts-ignore
-        dispatch(getTravel({ data: info }));
+        // dispatch(getTravel({ data: info }));
+        try {
+            const docRef = await addDoc(collection(db, "travels"), {
+                destiny: travelInfo.title,
+                activity: travelInfo.description,
+                imageUrl: travelInfo.ImageUri,
+                coords: travelInfo.coords
+            })
+            console.log("Document written with ID: ", docRef.id);
+            setTravelInfo({
+                title: '',
+                description: '',
+                ImageUri: '',
+                coords: {
+                    lat: null,
+                    lng: null
+                }
+            })
+        } catch (error) {
+            console.log('Error in database', error)
+        }
     }
 
 
@@ -71,7 +88,7 @@ const Travel = () => {
                     style={styles.input}
                     value={travelInfo.description}
                     onChangeText={handleTravelDescription}
-                    placeholder='Descripcion'
+                    placeholder='Actividad'
                 />
             </View>
 

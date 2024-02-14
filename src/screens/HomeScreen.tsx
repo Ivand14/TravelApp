@@ -1,6 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { addDoc, collection, getDoc, getDocs } from 'firebase/firestore'
 
+import { db } from '../../config/Firebase'
 import { useSelector } from 'react-redux'
 
 interface Coords {
@@ -21,14 +23,20 @@ interface AppState {
 
 const HomeScreen = () => {
 
-    const travelData = useSelector((state: AppState) => state.travel)
+    useEffect(() => {
+        const getUsers = async () => {
+            const querySnapshot = await getDocs(collection(db, 'travels'));
+            querySnapshot.forEach((doc) => {
+                console.log(`${doc.id} => ${doc.data()}`);
+            });
+        };
+        getUsers();
+    }, []);
 
-    console.log('travel', travelData.imageUri)
+
 
     return (
         <View style={styles.container}>
-            <Text>{travelData.title}</Text>
-            <Image source={{ uri: travelData.imageUri }} style={styles.image} />
         </View>
     )
 }

@@ -1,3 +1,5 @@
+import "firebase/auth"
+
 import { StyleSheet, Text, View } from 'react-native';
 
 import Navigation from './src/navigation';
@@ -6,6 +8,9 @@ import { StatusBar } from 'expo-status-bar';
 import Store from './src/Redux/Store';
 
 export default function App() {
+
+
+
   return (
     <Provider store={Store}>
       <View style={styles.container}>
